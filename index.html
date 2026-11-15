@@ -204,9 +204,26 @@
 
     .grid-2 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.85rem;
       margin-top: 0.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .callout-rec {
+      background: rgba(15, 118, 110, 0.06);
+      border: 1px solid rgba(15, 118, 110, 0.24);
+      color: var(--text);
+    }
+
+    html[data-theme="dark"] .callout-rec {
+      background: rgba(45, 212, 191, 0.08);
+      border-color: rgba(45, 212, 191, 0.24);
     }
 
     .card {
@@ -420,7 +437,7 @@
           </ol>
         </div>
       </div>
-      <div class="callout" style="background: var(--accent-soft); border-color: var(--accent); color: var(--text);">
+      <div class="callout callout-rec">
         <strong style="color: var(--accent-text);">Recommended Mandate Priorities:</strong>
         <ul style="margin-top: 0.4rem; margin-bottom: 0;">
           <li><strong>#1 Priority — Mandate A (Public Reporting):</strong> Purest Data Governance focus (Business Glossary, metric ownership, publication sign-off, evidence vs. assumptions). Realistic €40k 90-day scope, directly tackles the 82% vs. 61% core conflict, and is the cleanest to defend across all 6 Council roles.</li>
