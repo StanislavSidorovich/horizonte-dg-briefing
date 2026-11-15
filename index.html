@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-size="m">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Horizonte Municipality · Data Governance Team Briefing</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-alt: #f1f5f9;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+      --accent-text: #115e59;
+      --warn-bg: #fffbeb;
+      --warn-border: #fde68a;
+      --warn-text: #92400e;
+      --base-size: 16px;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-alt: #1e293b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #1f2937;
+      --accent: #2dd4bf;
+      --accent-soft: rgba(45, 212, 191, 0.14);
+      --accent-text: #5eead4;
+      --warn-bg: rgba(245, 158, 11, 0.12);
+      --warn-border: rgba(245, 158, 11, 0.3);
+      --warn-text: #fcd34d;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    html[data-size="s"] { --base-size: 14px; }
+    html[data-size="m"] { --base-size: 16px; }
+    html[data-size="l"] { --base-size: 18.5px; }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      font-size: var(--base-size);
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .topbar-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 0.85em;
+      font-weight: 600;
+      color: var(--accent-text);
+      letter-spacing: 0.02em;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-group {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--surface-alt);
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    button:hover { color: var(--text); }
+
+    button.active {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    html[data-theme="dark"] button.active {
+      color: #042f2e;
+    }
+
+    .theme-btn {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface-alt);
+      color: var(--text);
+      padding: 0.3rem 0.7rem;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.75rem 1.25rem 3.5rem;
+    }
+
+    header.hero {
+      margin-bottom: 1.75rem;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      font-size: 0.78em;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      margin: 0 0 0.4rem;
+      font-size: 1.85em;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 1em;
+    }
+
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 1.15rem;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.18em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    h2 .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.55em;
+      height: 1.55em;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      font-size: 0.8em;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    p { margin: 0 0 0.75rem; }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol {
+      margin: 0.25rem 0 0.75rem;
+      padding-left: 1.25rem;
+    }
+    li { margin-bottom: 0.35rem; }
+    li:last-child { margin-bottom: 0; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+
+    .card-title {
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-size: 0.74em;
+      font-weight: 600;
+      color: var(--accent-text);
+      background: var(--accent-soft);
+      padding: 0.1rem 0.45rem;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .callout {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      color: var(--warn-text);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      font-size: 0.93em;
+      margin-top: 0.75rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.65rem;
+      margin: 0.75rem 0;
+    }
+
+    .stat {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem 0.8rem;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.15em;
+      color: var(--accent-text);
+    }
+
+    .stat span {
+      font-size: 0.8em;
+      color: var(--text-muted);
+    }
+
+    .mandate-q {
+      margin-top: 0.55rem;
+      padding-left: 1.1rem;
+      font-size: 0.9em;
+      color: var(--text-muted);
+    }
+
+    .mandate-q li { margin-bottom: 0.25rem; }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.88em;
+      background: var(--surface-alt);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.82em;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">NOVA IMS · DATA GOVERNANCE 2026/27</div>
+      <div class="controls">
+        <div class="btn-group" role="group" aria-label="Font size">
+          <button type="button" data-size-btn="s" title="Small text">A-</button>
+          <button type="button" data-size-btn="m" class="active" title="Medium text">A</button>
+          <button type="button" data-size-btn="l" title="Large text">A+</button>
+        </div>
+        <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">🌙 Dark</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <header class="hero">
+      <div class="pill">Team Quick-Start · ~3 min read</div>
+      <h1>Horizonte Municipality: Group Project Briefing</h1>
+      <p class="subtitle">Our section's assigned Data Room, deliverables, hard rules, and the 4 Council mandates to choose from.</p>
+    </header>
+
+    <section>
+      <h2><span class="num">1</span> What We Have to Deliver (40% of Module Grade)</h2>
+      <p><strong>No slide deck, no live pitch, and no video.</strong> Both deliverables are submitted on Moodle <strong>5 calendar days before Session 7</strong>:</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">1-Page Council Briefing <span class="tag">Session 7 Debate</span></div>
+          <p>Strictly <strong>1 page</strong> using the official template. Other teams rate it before class, and we are debated across 6 Council roles (<em>Chair, Business Exec, Data Owner, CIO, Risk/DPO, CFO</em>) in Session 7.</p>
+          <ul>
+            <li>01 The Problem</li>
+            <li>02 Value at Stake</li>
+            <li>03 Our Recommendation</li>
+            <li>04 Evidence &amp; Frameworks</li>
+            <li>05 Trade-offs &amp; Implementation</li>
+            <li>06 Decision Requested</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Advisory Memo <span class="tag">6–8 pages + annexes</span></div>
+          <p>For the professor (<strong>6–8 pages</strong> main text + up to <strong>6 pages</strong> of annexes):</p>
+          <ul>
+            <li>Diagnosis &amp; Value Case (facts vs. assumptions vs. unknowns)</li>
+            <li>Operating Model (owners, stewards, Council, decision rights)</li>
+            <li><strong>COBIT 2019 APO14</strong> (all 10 practices reviewed; 3 prioritised)</li>
+            <li><strong>CMMI DMM</strong> (Governance Mgmt, Business Glossary, Metadata Mgmt)</li>
+            <li>6–12 month roadmap, KPIs, <strong>3 material decisions</strong> with alternatives</li>
+            <li>Annexes: <strong>Decision &amp; Evidence Matrix</strong> + <strong>AI Decision Log</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout">
+        <strong>Strict Evidence &amp; AI Rule:</strong> GenAI is encouraged, but we must log key prompts and what we <em>accepted, changed, or rejected</em> (15% of grade). Never invent interviews, numbers, legal conclusions, or maturity ratings. Do not average/subtract mismatched metrics.
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="num">2</span> Case Context &amp; Hard Constraints</h2>
+      <p><strong>Horizonte Municipality</strong> is a fictional Portuguese municipality (~142,000 residents, 5 planning zones, ~910 employees). Ahead of a Municipal Assembly hearing, two conflicting Q3 2026 numbers surfaced:</p>
+      <ul>
+        <li><strong>Operations (<code>DASH-Q3</code>):</strong> <strong>82%</strong> of work orders (<code>4,100 / 5,000</code>) closed within 10 working days of field assignment. A draft press note shortened this to <em>"82% of complaints resolved on time."</em></li>
+        <li><strong>Citizen Services (<code>CS-Q3</code>):</strong> only <strong>61%</strong> of incoming resident reports (<code>2,440 / 4,000</code>) received a final substantive reply within 10 working days of receipt.</li>
+        <li><strong>The Trap:</strong> They measure <em>different units and clocks</em> across 6 disconnected systems (<code>BairroDireto</code>, <code>Obras360</code>, <code>Terralink</code>, <code>GeoAssets</code>, <code>FinanceERP</code>, <code>ArquivoMunicipal</code>) with no guaranteed end-to-end <code>case_id</code>.</li>
+      </ul>
+      <div class="stats">
+        <div class="stat"><strong>€180,000</strong><span>Shared 2027 budget envelope</span></div>
+        <div class="stat"><strong>0.8 + 0.5 FTE</strong><span>IT + Citizen Services capacity</span></div>
+        <div class="stat"><strong>8 days/mo</strong><span>Max field verification</span></div>
+        <div class="stat"><strong>0 new posts</strong><span>No permanent DG hires in 2026</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="num">3</span> What's Inside the Data Room</h2>
+      <ul>
+        <li><code>01_Common_Data_Room.pdf</code> — Organisation overview, <strong>10 dated exhibits (E01–E10)</strong>, stakeholder positions, and explicit evidence limitations.</li>
+        <li><code>02_Council_Mandates_A_to_D.pdf</code> — 4 alternative decision scenarios (our team is allocated <strong>one</strong>).</li>
+        <li><code>03_Evidence_Extracts.xlsx</code> (+ PDF) — 7 synthetic tables (<code>Q3_METRICS</code>, <code>METRIC_DICTIONARY</code>, <code>DISPUTED_SAMPLE</code>, <code>CONTRACTOR_CHECKS</code>, <code>CHANNELS</code>, <code>SYSTEM_MAP</code>, <code>OPTIONS</code>). Used to cross-check claims and spot traps—not a full statistical database.</li>
+      </ul>
+      <p style="color: var(--text-muted); font-size: 0.92em;"><em>Note on dates:</em> Dates inside the case (e.g., 19 Nov, 12 Dec, 15 Dec, 20 Jan) are <strong>in-scenario decision deadlines</strong> (case date: 22 Oct 2026), not Moodle submission deadlines.</p>
+    </section>
+
+    <section>
+      <h2><span class="num">4</span> The 4 Mandates (A–D) — Pick Our Preference</h2>
+      <p>We need to rank our preferred mandate(s) in Moodle within 7 days of Session 1. Each mandate requires answering 3 specific questions:</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">A · Public Reporting <span class="tag">≤ €40k (90d)</span></div>
+          <p><strong>Which service-performance number can we publish?</strong> Decide how to report 82% vs. 61% before the 19 Nov pre-hearing note.</p>
+          <ol class="mandate-q">
+            <li>What to publish now (labels, populations, caveats) &amp; what claims are unsubstantiated?</li>
+            <li>Who owns definitions, validates evidence, produces &amp; approves release? How are disputes resolved?</li>
+            <li>Which 3 actions (90d &amp; 6–12m) best improve reporting, and what proves they worked?</li>
+          </ol>
+        </div>
+        <div class="card">
+          <div class="card-title">B · Systems Integration <span class="tag">€265k / €55k PoC</span></div>
+          <p><strong>One case, one digital journey: fund the integration?</strong> Vendor offer exceeds the €180k envelope and lacks a baseline or DPO sign-off.</p>
+          <ol class="mandate-q">
+            <li>What can be approved now vs. gated (expenditure / data processing)?</li>
+            <li>Which domains, mappings, definitions, owners &amp; controls are prerequisites for a pilot?</li>
+            <li>Which acceptance tests, fallbacks, owners &amp; funding gates govern 90d &amp; 6–12m?</li>
+          </ol>
+        </div>
+        <div class="card">
+          <div class="card-title">C · Contractor Oversight <span class="tag">€90k incentive</span></div>
+          <p><strong>Can we certify contractor performance?</strong> Contractor reports 93% timeliness (744/800); targeted checks corroborate 72% (54/75). €25k audit option.</p>
+          <ol class="mandate-q">
+            <li>What decision on verification, conditional approval, deferral or escalation, and by whom?</li>
+            <li>Which indicators, source records, approvals &amp; owners support reliable monitoring?</li>
+            <li>What minimum independent checks, exception handling &amp; evidence trail before next cycle?</li>
+          </ol>
+        </div>
+        <div class="card">
+          <div class="card-title">D · Digital vs. Equity <span class="tag">€160k AI vs €120k</span></div>
+          <p><strong>Digital-first services, or service access for everyone?</strong> Competing €160k (+€55k/yr) AI assistant vs. €120k offline support pilot.</p>
+          <ol class="mandate-q">
+            <li>What should be funded, piloted, deferred or rejected, and why (resource/inclusion trade-offs)?</li>
+            <li>Who is accountable for definitions, accessibility, advice quality, personal data &amp; outcomes?</li>
+            <li>Which evidence &amp; KPIs separate "digital activity" from "better, fairer service" before scale-up?</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="num">5</span> What to Read Right Now (Step 1 Only)</h2>
+      <p>Before we submit our team's mandate preference on Moodle, everyone only needs to skim <strong>two short files (~15 minutes total)</strong>:</p>
+      <ol>
+        <li><code>01_Evaluation_Overview_and_Group_Project_Brief.pdf</code> (2 pages) — rules, grading rubric, deliverables.</li>
+        <li><code>02_Horizonte_Municipality_Council_Mandates_A_to_D.pdf</code> (4 pages) — to vote on our #1 and #2 mandate choices.</li>
+      </ol>
+    </section>
+
+    <footer>
+      Horizonte Municipality is a fictional teaching case (NOVA IMS Data Governance 2026/27). No course files are hosted here.
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const themeBtn = document.getElementById('themeToggle');
+      const sizeBtns = document.querySelectorAll('[data-size-btn]');
+
+      function setTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        localStorage.setItem('dg_theme', theme);
+        themeBtn.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+      }
+
+      function setSize(size) {
+        root.setAttribute('data-size', size);
+        localStorage.setItem('dg_size', size);
+        sizeBtns.forEach(b => b.classList.toggle('active', b.dataset.sizeBtn === size));
+      }
+
+      const savedTheme = localStorage.getItem('dg_theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const savedSize = localStorage.getItem('dg_size') || 'm';
+
+      setTheme(savedTheme);
+      setSize(savedSize);
+
+      themeBtn.addEventListener('click', () => {
+        setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      });
+
+      sizeBtns.forEach(btn => {
+        btn.addEventListener('click', () => setSize(btn.dataset.sizeBtn));
+      });
+    })();
+  </script>
+</body>
+</html>
